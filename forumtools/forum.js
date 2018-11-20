@@ -44,13 +44,13 @@ function fetchAndParseLawIndex(data) {
 
       items.sort(compareItems);
 
-      items.forEach(item => {
+      for (i = 0; i < items.length; i++) {
+        item = items[i];
         var output = '<li><span class="infoentry"><a href="';
         output += item.link;
         output += '">' + item.title + '</a></span></li>';
         data.htmlOutput += output;
-      });
-
+      }
 
     }
   });
