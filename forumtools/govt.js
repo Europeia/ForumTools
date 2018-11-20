@@ -41,7 +41,7 @@ function fetchAndParsePositionList(data) {
     });
 }
 
-fetchData = [{
+govtFetchData = [{
     "name": "Executive",
     "url": constructUrl('2'),
     "positionCellName": "gsx$_cn6ca",

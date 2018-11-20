@@ -1,52 +1,58 @@
 <html>
-
-<head>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+  <head>
+    <script
+      type="text/javascript"
+      src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"
+    ></script>
     <script type="text/javascript" src="govt.js"></script>
-    <link rel="stylesheet" type="text/css" href="menu.css">
+    <script type="text/javascript" src="forum.js"></script>
+    <link rel="stylesheet" type="text/css" href="menu.css" />
     <script>
-        fetchData.forEach(data => {
-            fetchAndParsePositionList(data);
+      govtFetchData.forEach(data => {
+        fetchAndParsePositionList(data);
+      });
+
+      fetchAndParseTreaties();
+
+      $(document).ajaxStop(function() {
+        var govtOutput = '';
+
+        govtFetchData.forEach(data => {
+          govtOutput += '<ul id=' + data.name + '_registry">';
+          govtOutput += '<li class="infoheader">' + data.name + '<hr></li>';
+          govtOutput += data.htmlOutput;
+          govtOutput += '</ul>';
         });
 
-        $(document).ajaxStop(function () {
+        // output html
+        $('#government_registry').html(govtOutput);
 
-            var htmlOutput = '';
-
-            fetchData.forEach(data => {
-                htmlOutput += '<ul id=' + data.name + '_registry">';
-                htmlOutput += '<li class="infoheader">' + data.name + '<hr></li>';
-                htmlOutput += data.htmlOutput
-                htmlOutput += '</ul>';
-            });
-
-            // output html
-            $('#government_registry').html(htmlOutput);
+        var lawOutput = '<ul>';
+        treaties.forEach(treaty => {
+          lawOutput += treaty;
         });
+        lawOutput += '</ul>';
+
+        $('#law_index').html(lawOutput);
+      });
     </script>
-</head>
+  </head>
 
-<body>
+  <body>
     <div id="info">
-        <ul id="info_list">
-            <li class="clickable">
-                <a href="#" class="disabled">Region</a>
-            </li>
-            <li class="clickable">
-                <a href="#" class="disabled">Laws</a>
-            </li>
-            <li class="clickable">
-                <a href="#" class="disabled">Government</a>
-                <div id="government_registry"></div>
-            </li>
-            <li class="clickable">
-                <a href="#" class="disabled">News</a>
-            </li>
-            <li>
-                <a href="https://discord.gg/nYAwZ7f">Discord</a>
-            </li>
-        </ul>
+      <ul id="info_list">
+        <li class="clickable"><a href="#" class="disabled">Region</a></li>
+        <li class="clickable">
+          <a href="#" class="disabled">Laws</a>
+          <div id="law_index"></div>
+        </li>
+        <li class="clickable">
+          <a href="#" class="disabled">Government</a>
+          <div id="government_registry"></div>
+        </li>
+        <li class="clickable"><a href="#" class="disabled">News</a></li>
+        <li><a href="https://discord.gg/nYAwZ7f">Discord</a></li>
+      </ul>
     </div>
-</body>
-
+  </body>
 </html>
