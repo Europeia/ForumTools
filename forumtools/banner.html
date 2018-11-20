@@ -12,7 +12,9 @@
         fetchAndParsePositionList(data);
       });
 
-      fetchAndParseTreaties();
+      lawFetchData.forEach(data => {
+        fetchAndParseLawIndex(data);
+      });
 
       $(document).ajaxStop(function() {
         var govtOutput = '';
@@ -27,11 +29,16 @@
         // output html
         $('#government_registry').html(govtOutput);
 
-        var lawOutput = '<ul>';
-        treaties.forEach(treaty => {
-          lawOutput += treaty;
+        var lawOutput = '';
+        lawFetchData.forEach(data => {
+          lawOutput += '<ul>';
+          lawOutput += '<li class="infoheader">';
+          lawOutput += '<span class="infoentry">';
+          lawOutput += '<a href=' + data.url + '>' + data.name + '</a>';
+          lawOutput += '</span></li>';
+          lawOutput += data.htmlOutput;
+          lawOutput += '</ul>';
         });
-        lawOutput += '</ul>';
 
         $('#law_index').html(lawOutput);
       });
