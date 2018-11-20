@@ -1,17 +1,18 @@
-function constructLawUrl(forum)
-{
-    return 'http://www.europeians.com/forum/index.php?forums/' + forum + '/';
+function constructLawUrl(forum) {
+  return 'http://www.europeians.com/forum/index.php?forums/' + forum + '/';
 }
 
 lawFetchData = [
   {
     name: 'Law Index',
-    url: constructLawUrl('treaty-law.60031'),
+    url: constructLawUrl(
+      'alphabetical-list-of-acts-and-executive-orders.60032'
+    ),
     htmlOutput: ''
   },
   {
     name: 'Treaty Index',
-    url: constructLawUrl('alphabetical-list-of-acts-and-executive-orders.60032'),
+    url: constructLawUrl('treaty-law.60031'),
     htmlOutput: ''
   }
 ];
