@@ -46,8 +46,8 @@ function fetchAndParseLawIndex(data) {
 
       items.forEach(item => {
         var output = '<li><span class="infoentry"><a href="';
-        output += el.find('link').text();
-        output += '">' + el.find('title').text() + '</a></span></li>';
+        output += item.link;
+        output += '">' + item.title + '</a></span></li>';
         data.htmlOutput += output;
       });
 
