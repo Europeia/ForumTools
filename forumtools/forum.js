@@ -1,5 +1,5 @@
 function constructLawUrl(forum) {
-  return 'http://europeians.com/forum/index.php?forums/' + forum + '/';
+  return '/forum/index.php?forums/' + forum + '/';
 }
 
 lawFetchData = [{
