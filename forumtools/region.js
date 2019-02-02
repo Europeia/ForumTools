@@ -143,6 +143,7 @@ function generateRegionHtmlOutput() {
     regionalPowerLine += '<br /><hr />';
     htmlOutput.push(regionalPowerLine);
 
+    htmlOutput.push("Elections:");
     regionData.elections.forEach(election => htmlOutput.push(election));
 
     regionData.htmlOutput = htmlOutput;
