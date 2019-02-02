@@ -80,7 +80,7 @@ function getElectionData() {
                 electionDate = new Date(dateParts[2], (dateParts[0] - 1), dateParts[1]);
             }
 
-            var diffInDays = Math.floor((electionDate - today) / (1000 * 60 * 60 * 24));
+            var diffInDays = Math.ceil((electionDate - today) / (1000 * 60 * 60 * 24));
             var htmlOutput = title + " - ";
             if (diffInDays > 0) {
                 htmlOutput += diffInDays + " Days";
