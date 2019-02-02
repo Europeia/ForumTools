@@ -19,7 +19,8 @@ function compareItems(a, b) {
 }
 
 function fetchAndParseLawIndex(data) {
-  var feed = data.url + 'index.rss';
+  var feed = '';
+  feed += data.url + 'index.rss';
 
   $.ajax(feed, {
     accepts: {

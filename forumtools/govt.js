@@ -15,27 +15,29 @@ function fetchAndParsePositionList(data) {
         var html = "";
         var entry = response.feed.entry;
         for (var i = 1; i < entry.length; i++) {
-            var position = getValue(entry[i][data.positionCellName]);
-            var userId = getValue(entry[i][data.userIdCellName]);
-            var userName = getValue(entry[i][data.userNameCellName]);
-            var nationName = getValue(entry[i][data.nationCellName]);
+            if (data.showInBanner) {
+                var position = getValue(entry[i][data.positionCellName]);
+                var userId = getValue(entry[i][data.userIdCellName]);
+                var userName = getValue(entry[i][data.userNameCellName]);
+                var nationName = getValue(entry[i][data.nationCellName]);
 
-            html += '<li class="menuItem">' + position;
+                html += '<li class="menuItem">' + position;
 
-            if (userName.length > 0) {
-                html += ' - ';
-                if (userId.length > 0) {
-                    html += '<a href=http://europeians.com/forum/index.php?members/' + userId + '>' +
-                        userName + '</a>';
-                    if (nationName.length > 0) {
-                        html += '<sup><a href=http://nationstates.net/nation=' + nationName +
-                            '>NS</a></sup>';
+                if (userName.length > 0) {
+                    html += ' - ';
+                    if (userId.length > 0) {
+                        html += '<a href=http://europeians.com/forum/index.php?members/' + userId + '>' +
+                            userName + '</a>';
+                        if (nationName.length > 0) {
+                            html += '<sup><a href=http://nationstates.net/nation=' + nationName +
+                                '>NS</a></sup>';
+                        }
+                    } else {
+                        html += userName;
                     }
-                } else {
-                    html += userName;
                 }
+                html += '</li>';
             }
-            html += '</li>';
         }
         data.htmlOutput = html;
     });
@@ -48,7 +50,8 @@ govtFetchData = [{
     "userIdCellName": "gsx$_cre1l",
     "userNameCellName": "gsx$executivegovernmentofeuropeia",
     "nationCellName": "gsx$_cpzh4",
-    "htmlOutput": ""
+    "htmlOutput": "",
+    "showInBanner": true
 }, {
     "name": "Legislative",
     "url": constructGovtUrl('4'),
@@ -56,7 +59,8 @@ govtFetchData = [{
     "userIdCellName": "gsx$_cre1l",
     "userNameCellName": "gsx$legislativegovernmentofeuropeia",
     "nationCellName": "gsx$_cpzh4",
-    "htmlOutput": ""
+    "htmlOutput": "",
+    "showInBanner": true
 }, {
     "name": "Judiciary",
     "url": constructGovtUrl('3'),
@@ -64,7 +68,8 @@ govtFetchData = [{
     "userIdCellName": "gsx$_cre1l",
     "userNameCellName": "gsx$highcourtofeuropeia",
     "nationCellName": "gsx$_cpzh4",
-    "htmlOutput": ""
+    "htmlOutput": "",
+    "showInBanner": true
 }, {
     "name": "Chancellery",
     "url": constructGovtUrl('1'),
@@ -72,5 +77,15 @@ govtFetchData = [{
     "userIdCellName": "gsx$_cre1l",
     "userNameCellName": "gsx$founderandsupremechancelleryofeuropeia",
     "nationCellName": "gsx$_cpzh4",
-    "htmlOutput": ""
+    "htmlOutput": "",
+    "showInBanner": true
+}, {
+    "name": "WA Delegate",
+    "url": constructGovtUrl('5'),
+    "positionCellName": "gsx$_cn6ca",
+    "userIdCellName": "gsx$_cre1l",
+    "userNameCellName": "gsx$wadelegateofeuropeia",
+    "nationCellName": "gsx$_cpzh4",
+    "htmlOutput": "",
+    "showInBanner": false
 }];
