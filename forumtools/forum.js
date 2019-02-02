@@ -3,15 +3,15 @@ function constructLawUrl(forum) {
 }
 
 lawFetchData = [{
-    name: 'Law Index',
-    url: constructLawUrl('6000833'),
-    htmlOutput: ''
-  },
-  {
-    name: 'Treaty Index',
-    url: constructLawUrl('60031'),
-    htmlOutput: ''
-  }
+  name: 'Law Index',
+  url: constructLawUrl('6000833'),
+  htmlOutput: ''
+},
+{
+  name: 'Treaty Index',
+  url: constructLawUrl('60031'),
+  htmlOutput: ''
+}
 ];
 
 function compareItems(a, b) {
@@ -19,7 +19,8 @@ function compareItems(a, b) {
 }
 
 function fetchAndParseLawIndex(data) {
-  var feed = data.url + 'index.rss';
+  var feed = '';
+  feed += data.url + 'index.rss';
 
   $.ajax(feed, {
     accepts: {
