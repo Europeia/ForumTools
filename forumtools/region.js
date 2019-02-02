@@ -105,7 +105,7 @@ function getRegionNSData() {
             var power = response.getElementsByTagName("POWER")[0].childNodes[0].nodeValue;
 
             regionData.population = population;
-            regionData.votes = votes;
+            regionData.delegateVotes = votes;
             regionData.power = power;
         }
     })
