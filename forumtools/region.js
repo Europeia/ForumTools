@@ -98,8 +98,8 @@ function getRegionNSData() {
         type: "GET",
         url: "https://www.nationstates.net/cgi-bin/api.cgi?region=europeia&q=delegatevotes+power+numnations",
         dataType: "xml",
-        success: function(response) {
-            
+        success: function (response) {
+
             var population = response.getElementsByTagName("NUMNATIONS")[0].childNodes[0].nodeValue;
             var votes = response.getElementsByTagName("DELEGATEVOTES")[0].childNodes[0].nodeValue;
             var power = response.getElementsByTagName("POWER")[0].childNodes[0].nodeValue;

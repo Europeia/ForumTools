@@ -3,15 +3,15 @@ function constructLawUrl(forum) {
 }
 
 lawFetchData = [{
-    name: 'Law Index',
-    url: constructLawUrl('6000833'),
-    htmlOutput: ''
-  },
-  {
-    name: 'Treaty Index',
-    url: constructLawUrl('60031'),
-    htmlOutput: ''
-  }
+  name: 'Law Index',
+  url: constructLawUrl('6000833'),
+  htmlOutput: ''
+},
+{
+  name: 'Treaty Index',
+  url: constructLawUrl('60031'),
+  htmlOutput: ''
+}
 ];
 
 function compareItems(a, b) {
