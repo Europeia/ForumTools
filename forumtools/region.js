@@ -81,12 +81,13 @@ function getElectionData() {
             }
 
             var diffInDays = Math.ceil((electionDate - today) / (1000 * 60 * 60 * 24));
-            var htmlOutput = title + " - ";
+            var htmlOutput = title + " - <b>";
             if (diffInDays > 0) {
                 htmlOutput += diffInDays + " Days";
             } else {
                 htmlOutput += "TODAY";
             }
+            htmlOutput += "</b>";
 
             regionData.elections.push([htmlOutput]);
         }
