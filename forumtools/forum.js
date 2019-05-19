@@ -1,15 +1,15 @@
-function constructLawUrl(forum) {
-  return '/forum/index.php?forums/' + forum + '/';
+function constructForumUrl(forum) {
+  return 'http://europeians.com/forum/index.php?forums/' + forum + '/';
 }
 
 lawFetchData = [{
   name: 'Law Index',
-  url: constructLawUrl('6000833'),
+  url: constructForumUrl('6000833'),
   htmlOutput: ''
 },
 {
   name: 'Treaty Index',
-  url: constructLawUrl('60031'),
+  url: constructForumUrl('60031'),
   htmlOutput: ''
 }
 ];
