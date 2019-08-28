@@ -9,7 +9,7 @@
       "type": "chrome",
       "request": "launch",
       "runtimeArgs": ["--disable-web-security", "--user-data-dir"],
-      "file": "${workspaceFolder}/banner.html"
+      "file": "${workspaceFolder}/timesheet.htm"
     }
   ]
 }
