@@ -42,19 +42,22 @@ function fetchCheckin() {
   }
 
   checkinSheets.forEach(sh => {
-    $.getJSON(constructSheetUrl(sh), function(response) {
+    var url = constructSheetUrl(sh);
+    $.getJSON(url, function (response) {
       var entry = response.feed.entry;
-      for (var i = 0; i < entry.length; i++) {
-        var handle = getValue(entry[i]["gsx$yourhandle"]);
-        if (handle) {
-          var timestamp = Date.parse(getValue(entry[i]["gsx$timestamp"]));
-          // floor to the nearest quarter hour
-          timestamp = timestamp - (timestamp % fifteenMinutes);
+      if (entry) {
+        for (var i = 0; i < entry.length; i++) {
+          var handle = getValue(entry[i]["gsx$yourhandle"]);
+          if (handle) {
+            var timestamp = Date.parse(getValue(entry[i]["gsx$timestamp"]));
+            // floor to the nearest quarter hour
+            timestamp = timestamp - (timestamp % fifteenMinutes);
 
-          checkinData.push({
-            timestamp: timestamp,
-            handle: handle
-          });
+            checkinData.push({
+              timestamp: timestamp,
+              handle: handle
+            });
+          }
         }
       }
     });
@@ -71,19 +74,21 @@ function fetchCheckout() {
   }
 
   checkoutSheets.forEach(sh => {
-    $.getJSON(constructSheetUrl(sh), function(response) {
+    $.getJSON(constructSheetUrl(sh), function (response) {
       var entry = response.feed.entry;
-      for (var i = 0; i < entry.length; i++) {
-        var handle = getValue(entry[i]["gsx$yourhandle"]);
-        if (handle) {
-          var timestamp = Date.parse(getValue(entry[i]["gsx$timestamp"]));
-          // ceil to the nearest half hour
-          timestamp = timestamp + fifteenMinutes - (timestamp % fifteenMinutes);
+      if (entry) {
+        for (var i = 0; i < entry.length; i++) {
+          var handle = getValue(entry[i]["gsx$yourhandle"]);
+          if (handle) {
+            var timestamp = Date.parse(getValue(entry[i]["gsx$timestamp"]));
+            // ceil to the nearest half hour
+            timestamp = timestamp + fifteenMinutes - (timestamp % fifteenMinutes);
 
-          checkoutData.push({
-            timestamp: timestamp,
-            handle: handle
-          });
+            checkoutData.push({
+              timestamp: timestamp,
+              handle: handle
+            });
+          }
         }
       }
     });
