@@ -1,0 +1,29 @@
+<style type="text/css">
+  th {
+    vertical-align: top;
+    text-align: left;
+  }
+
+  td {
+    padding: 4px;
+  }
+
+  input[type="text"], input[type="number"] {
+    width: 250px;
+  }
+
+  textarea {
+    width: 250px;
+    height: 5em;
+  }
+</style>
+
+<form action="send_dispatch" method="POST">
+  <table>
+    {{ form }}
+    <tr>
+      <td></td>
+      <td><input type="submit" value="Send Dispatch" /></td>
+    </tr>
+  </table>
+</form>
