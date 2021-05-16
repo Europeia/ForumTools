@@ -17,6 +17,7 @@ class HTTPMethod(Enum):
 
 
 class NSDispatchStatus(Enum):
+    START = "Start"
     PREPARE = "Prepare"
     COMPLETE = "Complete"
     DELETE = "Deleted"
@@ -42,4 +43,4 @@ class NSDispatchForm(forms.ModelForm):
         labels = {"text": "Text", "title": "Title", "dispatch_id": "Dispatch Id"}
 
     def save(self, *args, **kwargs) -> NSDispatch:
-        super().save(*args, **kwargs)
+        return super().save(*args, **kwargs)
