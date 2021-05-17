@@ -1,19 +1,12 @@
-from comms.models import HTTPMethod, NSDispatch, NSDispatchForm, NSDispatchStatus
+from comms.helpers import DispatchSubmitType, submitDispatchExecute, submitDispatchPrepare
+from comms.models import HTTPMethod, NSDispatchForm, NSDispatchStatus
 from django.http.response import Http404, HttpResponseNotAllowed
 from django.shortcuts import render
-from django.template import loader
 from django.http import HttpRequest
 from django.views.decorators.csrf import csrf_exempt
-import requests
-import time
-import certifi
-from lxml import html
+import re
 
 # Create your views here.
-api_url = "https://www.nationstates.net/cgi-bin/api.cgi"
-DEBUG_PROXY = False
-
-
 def index(request: HttpRequest):
     raise Http404()
 
@@ -28,62 +21,37 @@ def send_dispatch(request: HttpRequest):
     if request.method != str(HTTPMethod.POST.value):
         return HttpResponseNotAllowed([str(HTTPMethod.POST.value)])
 
+    output = "Unknown error"
     form = NSDispatchForm(request.POST)
     new_dispatch = form.save(commit=False)
     new_dispatch.status = NSDispatchStatus.START
     new_dispatch.category = 3
     new_dispatch.subcategory = 315
-    # new_dispatch.save()
+    new_dispatch.save()
 
     prepare_params = {
-        "nation": "Darcness",
-        "c": "dispatch",
-        "dispatch": "add",
         "title": new_dispatch.title,
         "text": new_dispatch.text,
         "category": new_dispatch.category,
         "subcategory": new_dispatch.subcategory,
-        "mode": "prepare",
     }
 
-    prepare_headers = {"X-Autologin": ".omIzDydC0DTwlzpT7UqDJw", "User-Agent": "EuroTools"}
+    token = submitDispatchPrepare(prepare_params, DispatchSubmitType.Add)
 
-    proxyDict = {}
-
-    if DEBUG_PROXY:
-        proxyDict["http"] = "192.168.254.14:8888"
-        proxyDict["https"] = "192.168.254.14:8888"
-
-    r = requests.get(
-        api_url,
-        params=prepare_params,
-        headers=prepare_headers,
-        proxies=proxyDict,
-        verify="/etc/ssl/certs/ca-certificates.crt",
-    )
-
-    tree = html.fromstring(r.content)
-    tokens = tree.xpath("//success/text()")
+    new_dispatch.status = NSDispatchStatus.PREPARE
+    new_dispatch.save()
 
     # we have a token, so we can make a response
-    if len(tokens) > 0:
-        token = tokens[0]
+    if len(token) > 0:
+        success_msg = submitDispatchExecute(prepare_params, DispatchSubmitType.Add, token)
 
-        prepare_params["mode"] = "execute"
-        prepare_params["token"] = token
-        pin = r.headers["X-Pin"]
+        new_dispatch.status = NSDispatchStatus.COMPLETE
+        new_dispatch.save()
 
-        if len(pin) > 0:
-            prepare_headers["X-Pin"] = pin
-            prepare_headers["X-Autologin"] = None
+        success_msg_regex = re.search("dispatch\/id=(\d*)", success_msg)
 
-        time.sleep(20)
-        r2 = requests.get(
-            api_url,
-            params=prepare_params,
-            headers=prepare_headers,
-            proxies=proxyDict,
-            verify="/etc/ssl/certs/ca-certificates.crt",
-        )
+        if len(success_msg_regex.groups()) > 0:
+            # We have a dispatch Id!
+            output = "Successfully added Dispatch! Id: " + success_msg_regex.group(1)
 
-    return render(request, "comms/send_dispatch.html", {"dispatch": r2.__dict__})
+    return render(request, "comms/send_dispatch.html", {"dispatch": output})
