@@ -1,93 +1,115 @@
 <html>
-  <head>
-    <script
-      type="text/javascript"
-      src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"
-    ></script>
-    <script type="text/javascript" src="govt.js"></script>
-    <script type="text/javascript" src="forum.js"></script>
-    <script type="text/javascript" src="region.js"></script>
-    <script type="text/javascript" src="news.js"></script>
-    <link rel="stylesheet" type="text/css" href="menu.css" />
-    <script>
+
+<head>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+  <script type="text/javascript" src="govt.js"></script>
+  <script type="text/javascript" src="forum.js"></script>
+  <script type="text/javascript" src="region.js"></script>
+  <script type="text/javascript" src="news.js"></script>
+  <link rel="stylesheet" type="text/css" href="menu.css" />
+  <script>
+    govtFetchData.forEach(data => {
+      fetchAndParsePositionList(data);
+    });
+
+    lawFetchData.forEach(data => {
+      fetchAndParseLawIndex(data);
+    });
+
+    getRegionData();
+
+    fetchAndParseNewsIndex(newsFetchData);
+
+    $(document).ajaxStop(function () {
+      var govtOutput = "";
+
       govtFetchData.forEach(data => {
-        fetchAndParsePositionList(data);
+        if (data.showInBanner) {
+          govtOutput += "<ul id=" + data.name + '_registry">';
+          govtOutput += '<li class="infoheader">' + data.name + "<hr></li>";
+          govtOutput += data.htmlOutput;
+          govtOutput += "</ul>";
+        }
       });
 
+      // output html
+      $("#government_registry").html(govtOutput);
+
+      var lawOutput = "";
       lawFetchData.forEach(data => {
-        fetchAndParseLawIndex(data);
+        lawOutput += "<ul>";
+        lawOutput += '<li class="infoheader">';
+        lawOutput += '<span class="infoentry">';
+        lawOutput += "<a href=" + data.url + ">" + data.name + "</a>";
+        lawOutput += "</span></li>";
+        lawOutput += data.htmlOutput;
+        lawOutput += "</ul>";
       });
 
-      getRegionData();
+      $("#law_index").html(lawOutput);
 
-      fetchAndParseNewsIndex(newsFetchData);
+      generateRegionHtmlOutput();
 
-      $(document).ajaxStop(function() {
-        var govtOutput = "";
-
-        govtFetchData.forEach(data => {
-          if (data.showInBanner) {
-            govtOutput += "<ul id=" + data.name + '_registry">';
-            govtOutput += '<li class="infoheader">' + data.name + "<hr></li>";
-            govtOutput += data.htmlOutput;
-            govtOutput += "</ul>";
-          }
-        });
-
-        // output html
-        $("#government_registry").html(govtOutput);
-
-        var lawOutput = "";
-        lawFetchData.forEach(data => {
-          lawOutput += "<ul>";
-          lawOutput += '<li class="infoheader">';
-          lawOutput += '<span class="infoentry">';
-          lawOutput += "<a href=" + data.url + ">" + data.name + "</a>";
-          lawOutput += "</span></li>";
-          lawOutput += data.htmlOutput;
-          lawOutput += "</ul>";
-        });
-
-        $("#law_index").html(lawOutput);
-
-        generateRegionHtmlOutput();
-
-        var regionOutput = "";
-        regionOutput += '<ul class="menu_first">';
-        regionData.htmlOutput.forEach(data => {
-          regionOutput +=
-            '<li><span class="infoentry">' + data + "</span></li>";
-        });
-        regionOutput += "</ul>";
-
-        $("#regional_info").html(regionOutput);
-
-        $("#wire_post").html(newsFetchData.htmlOutput);
+      var regionOutput = "";
+      regionOutput += '<ul class="menu_first">';
+      regionData.htmlOutput.forEach(data => {
+        regionOutput +=
+          '<li><span class="infoentry">' + data + "</span></li>";
       });
-    </script>
-  </head>
+      regionOutput += "</ul>";
 
-  <body>
-    <div id="info">
-      <ul id="info_list">
-        <li class="clickable">
-          <a href="#" class="disabled">Region</a>
-          <div id="regional_info"></div>
-        </li>
-        <li class="clickable">
-          <a href="#" class="disabled">Laws</a>
-          <div id="law_index"></div>
-        </li>
-        <li class="clickable">
-          <a href="#" class="disabled">Government</a>
-          <div id="government_registry"></div>
-        </li>
-        <li class="clickable">
-          <a href="#" class="disabled">News</a>
-          <div id="wire_post"></div>
-        </li>
-        <li><a href="https://discord.gg/nYAwZ7f">Discord</a></li>
-      </ul>
-    </div>
-  </body>
+      $("#regional_info").html(regionOutput);
+
+      $("#wire_post").html(newsFetchData.htmlOutput);
+    });
+  </script>
+</head>
+
+<body>
+  <div id="info">
+    <ul id="info_list">
+      <li class="clickable">
+        <a href="#" class="disabled">Region <span class="fa fa-caret-down fa-fw"></span></a>
+        <div id="regional_info"></div>
+      </li>
+      <li class="clickable">
+        <a href="#" class="disabled">Laws <span class="fa fa-caret-down fa-fw"></span></a>
+        <div id="law_index"></div>
+      </li>
+      <li class="clickable">
+        <a href="#" class="disabled">Government <span class="fa fa-caret-down fa-fw"></span></a>
+        <div id="government_registry"></div>
+      </li>
+      <li class="clickable">
+        <a href="#" class="disabled">News <span class="fa fa-caret-down fa-fw"></span></a>
+        <div id="wire_post"></div>
+      </li>
+      <li><a href="https://discord.gg/nYAwZ7f">Discord</a></li>
+      <li><a href="https://mixlr.com/ebc-radio/">Radio</a></li>
+    </ul>
+  </div>
+  <!-- BEGIN: Clickable drop-down menus -->
+  <script type="text/javascript">
+    /* <![CDATA[ */
+    $(document).ready(function () {
+      $('.clickable').addClass('no-hover');
+    });
+
+    $('a.disabled').on('click', function (e) {
+      e.preventDefault();
+    });
+
+    $('.clickable').on('click', function (e) {
+      if ($(this).hasClass('js-expand')) {
+        $(this).removeClass('js-expand');
+      } else {
+        $(".js-expand").removeClass("js-expand");
+        $(this).addClass('js-expand');
+      }
+    });
+		/* ]]> */
+  </script>
+  <!-- END: Clickable drop-down menus -->
+</body>
+
 </html>
