@@ -1,5 +1,6 @@
 function constructForumUrl(forum) {
-  return 'index.php?forums/' + forum + '/';
+  return (!window.location.hostname.includes("europeians.com") ? "https://forums.europeians.com/":"") + 
+  'index.php?forums/' + forum + '/';
 }
 
 lawFetchData = [{

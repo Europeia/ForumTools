@@ -41,57 +41,67 @@ function populatePersonData(person, userId, userName, nationName) {
 }
 
 function getPersonData(data, rowNum, person) {
-    $.getJSON(data.url, function (response) {
-        var entry = response.feed.entry;
-        var userId = getValue(entry[rowNum][data.userIdCellName]);
-        var userName = getValue(entry[rowNum][data.userNameCellName]);
-        var nationName = getValue(entry[rowNum][data.nationCellName]);
+    $.ajax(data.url,
+        {
+            dataType: "text",
+            cache: true,
+            success: function (response) {
+                const csvData = CSVToArray(response);
+                var userId = csvData[rowNum][3];
+                var userName = csvData[rowNum][1];
+                var nationName = csvData[rowNum][2];
 
-        populatePersonData(person, userId, userName, nationName);
-    });
+                populatePersonData(person, userId, userName, nationName);
+            }
+        }
+    );
 }
 
 function getFounder() {
-    getPersonData(govtFetchData[3], 1, regionData.founder);
+    getPersonData(govtFetchData[3], 2, regionData.founder);
 }
 
 function getDelegate() {
-    getPersonData(govtFetchData[4], 1, regionData.delegate);
+    getPersonData(govtFetchData[4], 2, regionData.delegate);
 }
 
 function constructElectionUrl(sheetId) {
-    return 'https://spreadsheets.google.com/feeds/list/14EYEMWndRcZEjW1Mz83QjfzQ1cm9s-vDC6zbuGnmqXY/' + sheetId +
-        '/public/values?alt=json';
+    return 'https://docs.google.com/spreadsheet/ccc?key=14EYEMWndRcZEjW1Mz83QjfzQ1cm9s-vDC6zbuGnmqXY&single=true&output=csv&gid=' + sheetId.toString();
 }
 
 function getElectionData() {
-    $.getJSON(constructElectionUrl(1), function (response) {
-        var entry = response.feed.entry;
+    $.ajax(constructElectionUrl(0), {
+        dataType: "text",
+        cache: true,
+        success: function (response) {
+            csvData = CSVToArray(response);
+            console.log(csvData);
 
-        for (var i = 0; i < entry.length; i++) {
-            var title = getValue(entry[i]["gsx$election"]);
-            var date = getValue(entry[i]["gsx$date"]);
+            for (var i = 1; i < csvData.length; i++) {
+                var title = csvData[i][0];
+                var date = csvData[i][1];
 
-            var today = new Date();
-            var electionDate = new Date();
+                var today = new Date();
+                var electionDate = new Date();
 
-            var dateParts = date.split("/");
-            if (dateParts.length > 2) {
-                electionDate = new Date(dateParts[2], (dateParts[0] - 1), dateParts[1]);
+                var dateParts = date.split("/");
+                if (dateParts.length > 2) {
+                    electionDate = new Date(dateParts[2], (dateParts[0] - 1), dateParts[1]);
+                }
+
+                var diffInDays = Math.ceil((electionDate - today) / (1000 * 60 * 60 * 24));
+                var htmlOutput = title + " - <b>";
+                if (diffInDays > 0) {
+                    htmlOutput += diffInDays + " Days";
+                } else {
+                    htmlOutput += "TODAY";
+                }
+                htmlOutput += "</b>";
+
+                regionData.elections.push([htmlOutput]);
             }
-
-            var diffInDays = Math.ceil((electionDate - today) / (1000 * 60 * 60 * 24));
-            var htmlOutput = title + " - <b>";
-            if (diffInDays > 0) {
-                htmlOutput += diffInDays + " Days";
-            } else {
-                htmlOutput += "TODAY";
-            }
-            htmlOutput += "</b>";
-
-            regionData.elections.push([htmlOutput]);
         }
-    })
+    });
 }
 
 function getRegionNSData() {
