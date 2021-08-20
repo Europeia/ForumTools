@@ -6,8 +6,7 @@ function getValue(entry) {
 }
 
 function constructGovtUrl(sheetId) {
-    return 'https://spreadsheets.google.com/feeds/list/1I89Y3G51BbWY0cweQ5sM8AZhMn0fi9YwJHbtr5MfEuU/' + sheetId +
-        '/public/values?alt=json';
+    return 'https://docs.google.com/spreadsheet/ccc?key=1I89Y3G51BbWY0cweQ5sM8AZhMn0fi9YwJHbtr5MfEuU&single=true&output=csv&gid=' + sheetId;
 }
 
 function fetchAndParsePositionList(data) {
@@ -45,7 +44,7 @@ function fetchAndParsePositionList(data) {
 
 govtFetchData = [{
     "name": "Executive",
-    "url": constructGovtUrl('2'),
+    "url": constructGovtUrl('0'),
     "positionCellName": "gsx$_cn6ca",
     "userIdCellName": "gsx$_cre1l",
     "userNameCellName": "gsx$executivegovernmentofeuropeia",
@@ -54,7 +53,7 @@ govtFetchData = [{
     "showInBanner": true
 }, {
     "name": "Legislative",
-    "url": constructGovtUrl('4'),
+    "url": constructGovtUrl('796792756'),
     "positionCellName": "gsx$_cn6ca",
     "userIdCellName": "gsx$_cre1l",
     "userNameCellName": "gsx$legislativegovernmentofeuropeia",
@@ -63,7 +62,7 @@ govtFetchData = [{
     "showInBanner": true
 }, {
     "name": "Judiciary",
-    "url": constructGovtUrl('3'),
+    "url": constructGovtUrl('25811558'),
     "positionCellName": "gsx$_cn6ca",
     "userIdCellName": "gsx$_cre1l",
     "userNameCellName": "gsx$highcourtofeuropeia",
@@ -72,7 +71,7 @@ govtFetchData = [{
     "showInBanner": true
 }, {
     "name": "Chancellery",
-    "url": constructGovtUrl('1'),
+    "url": constructGovtUrl('1970855203'),
     "positionCellName": "gsx$_cn6ca",
     "userIdCellName": "gsx$_cre1l",
     "userNameCellName": "gsx$founderandsupremechancelleryofeuropeia",
@@ -81,7 +80,7 @@ govtFetchData = [{
     "showInBanner": true
 }, {
     "name": "WA Delegate",
-    "url": constructGovtUrl('5'),
+    "url": constructGovtUrl('497862193'),
     "positionCellName": "gsx$_cn6ca",
     "userIdCellName": "gsx$_cre1l",
     "userNameCellName": "gsx$wadelegateofeuropeia",
