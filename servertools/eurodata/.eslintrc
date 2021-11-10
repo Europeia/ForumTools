@@ -1,0 +1,52 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "simple-import-sort", "import"],
+  "rules": {
+    "@typescript-eslint/explicit-function-return-type": "off", // We have too many complex types to require this
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/interface-name-prefix": "off", // Sometimes our interfaces are named IFoo on purpose.
+    "@typescript-eslint/indent": ["error", 2, { "SwitchCase": 1 }],
+    "import/first": "error",
+    "import/newline-after-import": "error",
+    "import/no-duplicates": "error",
+    "import/order": "off",
+    "simple-import-sort/imports": "error",
+    "arrow-parens": ["error", "always"],
+    "comma-dangle": ["error", "never"],
+    "eol-last": ["error", "always"],
+    "eqeqeq": ["error", "always"],
+    "comma-spacing": "error",
+    "indent": "off",
+    "key-spacing": ["error", { "afterColon": true }],
+    "keyword-spacing": ["error", { "before": true, "after": true }],
+    "linebreak-style": ["error", "unix"],
+    "max-len": ["error", { "code": 140, "ignoreComments": true }],
+    "no-console": "warn", // react-scripts is a pain, so we have to warn on these.
+    "no-fallthrough": "off",
+    "no-multi-spaces": "error",
+    "object-curly-newline": [
+      "error",
+      {
+        "ObjectExpression": { "multiline": true },
+        "ObjectPattern": { "multiline": true },
+        "ImportDeclaration": { "multiline": true },
+        "ExportDeclaration": { "multiline": true }
+      }
+    ],
+    "object-curly-spacing": ["error", "always"],
+    "padding-line-between-statements": [
+      "error",
+      { "blankLine": "always", "prev": ["block", "block-like", "cjs-export", "class", "export", "let"], "next": "*" }
+    ],
+    "quotes": ["error", "double"],
+    "semi": ["error", "always"],
+    "space-infix-ops": "error",
+    "sort-imports": "off"    
+  },
+  "ignorePatterns": ["src/external/**"]
+}
