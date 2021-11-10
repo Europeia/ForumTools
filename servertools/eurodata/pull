@@ -1,0 +1,13 @@
+#!/bin/bash
+
+for year in {2018..2021}
+do
+  for month in {01..12}
+  do
+    for day in {01..31}
+    do
+      wget -P dl https://www.nationstates.net/archive/regions/$year-$month-$day-regions-xml.gz
+    done
+  done
+done
+    
