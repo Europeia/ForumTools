@@ -157,3 +157,10 @@ function convertToEmbassyArray(raw: EmbassyListRaw): EmbassyRaw[] {
 
   return raw.EMBASSY.map((e) => (typeof e === "string" ? { type: "accepted", $t: e } : e));
 }
+
+export interface RegionData {
+  date: Date;
+  name: string;
+  deltaVotes: number;
+  deltaNations: number;
+}
