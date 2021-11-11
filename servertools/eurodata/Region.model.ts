@@ -93,7 +93,7 @@ export interface Officer {
 
 export function convertToRegion(raw: RegionRaw): Region {
   return {
-    name: raw.NAME,
+    name: raw.NAME.toLowerCase(),
     factbook: raw.FACTBOOK,
     nations: typeof raw.NATIONS === "string" ? raw.NATIONS.split(":") : [],
     delegate: raw.DELEGATE
